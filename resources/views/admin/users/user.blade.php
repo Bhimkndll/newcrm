@@ -50,6 +50,8 @@
                                             <th>Role</th>
                                             <th>Address</th>
                                             <th>Phone</th>
+                                            <th>Status</th>
+
                                             <th>Action</th>
 
                                         </tr>
@@ -64,6 +66,16 @@
                                             <td>{{$user->role}}</td>
                                             <td class="center">{{$user->address}}</td>
                                             <td class="center">{{$user->phone}}</td>
+                                              <td class="center">
+                                                <a class="status {{($user->status)?'on':'off'}}" href="{{route('user.status',['id'=>$user->id])}}">
+                                                    
+{{($user->status)?'On':'Off'}}
+
+
+                                                </a>
+                        
+
+                                            </td>
                                             <td class="center">
                                                 <a class="btn btn-sm btn-primary" href="{{route('user.edit',['id'=>$user->id])}}"><i class="fa fa-pencil"></i></a>
                                                 <a class="btn btn-sm btn-danger" href="{{route('user.delete',['id'=>$user->id])}}"><i class="fa fa-trash-o"></i></a>
@@ -121,9 +133,9 @@
 <div class="form-group">
     <label class="input-group-text" for="inputGroupSelect01">Role</label>
   <select class="custom-select form-control" name="role">
-    <option selected value="employee">employee</option>
-    <option value="1" value="employer">employer</option>
-    <option value="2" value="student">student</option>
+    <option selected value="level1">level1</option>
+    <option value="1" value="level2">level2</option>
+    <option value="2" value="level3">level3</option>
   </select>
 </div>
 

@@ -48,6 +48,8 @@
                                              <th>Name</th>
                                             <th>Address</th>
                                             <th>Phone</th>
+                                                                                        <th>Added By</th>
+
                                             <th>Action</th>
 
 
@@ -63,10 +65,13 @@
                                          <td>{{$client->fullname}}</td>
                                             <td>{{$client->address}}</td>
                                             <td>{{$client->phone}}</td>
-                                            <td class="center">
+                                            <td>{{$client->user->name}}</td>
+<td class="center">
                                                 <a class="btn btn-sm btn-primary" href="{{route('client.edit',['id'=>$client->id])}}"><i class="fa fa-pencil"></i></a>
+                                               @can('admin')
                                                 <a class="btn btn-sm btn-danger" href="{{route('client.delete',['id'=>$client->id])}}"><i class="fa fa-trash-o"></i></a>
-                                                  <a class="btn btn-sm btn-info" href="{{route('task.assign',['id'=>$client->id])}}"><i class="fa fa-tasks"></i></a>
+                                                  
+                                                  @endcan<a class="btn btn-sm btn-info" href="{{route('task.assign',['id'=>$client->id])}}"><i class="fa fa-tasks"></i></a>
                                                     <a class="btn btn-sm btn-info" href="{{route('client.detail',['id'=>$client->id])}}"><i class="fa fa-eye"></i></a>
                                             </td>
 
@@ -110,10 +115,27 @@
 <label for="recipient-name" class="control-label">FullName:</label>
             <input type="text" class="form-control" id="recipient-name" name="fullname" required>
           </div>
+
+<div class="form-group">
+            <label for="message-text" class="control-label">Email:</label>
+            <input type="text" class="form-control" id="message-text" name="email">
+          </div>
+
+
+          
           <div class="form-group">
             <label for="message-text" class="control-label">Address:</label>
             <input type="text" class="form-control" id="message-text" name="address" required>
           </div>
+
+
+
+  <div class="form-group ticket">
+            <label for="message-text" class="control-label">Date:</label>
+  <input type="date"class="form-control" id="birthdaydate" name="dob">
+ 
+          </div>
+
 
 
       

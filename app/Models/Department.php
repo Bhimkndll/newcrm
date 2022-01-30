@@ -20,4 +20,12 @@ class Department extends Model
       return $this->hasOne(App\Models\Client::class);
     }
 
+
+     public function  taskassign(){
+
+      return $this->hasOne(Taskassign::class);
+    }
+
+
+
 }

@@ -11,34 +11,57 @@ use Illuminate\Support\Facades\Session;
  use App\Models\Department;
   use App\Models\Taskassign;
   use App\Models\Ticket;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+use validator;
 
 
 
 class ClientController extends Controller
 {
    public function show(){
- $departs=Department::all('id','department');
-   $clients=Client::with('department')->get();
+   $departs=Department::all('id','department');
+   $clients=Client::with('department','user')->get();
     return view('admin.clients.client')->with(compact('clients','departs'));
    }
 
 public function add(Request $request){
 
 
-$validated = request()->validate([
-  'fullname' => 'required',
-  'address'=>'required',
-  'phone' => 'required',
+    $validated = request()->validate([
+    'fullname' => 'required',
+    'address'=>'required',
+    'phone' => 'required',
+
+    'email' => $request->input('email') != null ?'sometimes|required|email': '',
+    'dob' => $request->input('dob') != null ?'sometimes|required': ''
+
+
+
+
+
 /*  'department'=>'required'
 */]);
+
+
+
+
+
+
+
 $add=Client::create([
+  'user_id'=>Auth::id(),
   'fullname' => $validated['fullname'],
   'address' => $validated['address'],
-    'phone' => $validated['phone'],
+  'phone' => $validated['phone'],
+  'c_email' => $validated['email'],
+  'c_dob' => $validated['dob'],
+
+
 /*    'department_id' => $validated['department'],
 */
 ]);
-    return redirect()->back();
+    return redirect()->back()->with('success','Client added successfully');
 
 
 
@@ -47,6 +70,7 @@ $add=Client::create([
 
 
  public function client_edit($id){
+      
     $client=Client::findorfail($id);
     $departs=Department::all();
     if($client!= null){
@@ -58,11 +82,18 @@ $add=Client::create([
 
 
 public function client_delete($id){
+    /*client delete only by admin*/
+    if (! Gate::allows('admin')) {
+            abort(403);
+        }
  $client = Client:: find($id);
+ if($client->taskassign()->count()>0){
+return redirect()->back()->with(['warning'=> 'If yout want to delete this client you must delete ticket and task assign with client']);
+}
 if($client != null)
 {
 $client->delete();
-return redirect()->back()->with('info','Successfully deleted!');
+return redirect()->back()->with('info','Client Successfully deleted!');
 }
  }
 
@@ -77,16 +108,23 @@ $validated = request()->validate([
            
             'address'=>['required','string','max:25','min:3'],
             'phone'=>['required','string','min:10'],
-            'department'=>['required']
+                         'email' => $request->input('email') != null ?'sometimes|required|email': '',
+    'dob' => $request->input('dob') != null ?'sometimes|required': ''
+
+
+
 
 ]);
-
+$client->user_id = Auth::id();
 $client->fullname = $validated['fullname'];
 $client->address = $validated['address'];
 $client->phone= $validated['phone'];
+$client->c_email= $validated['email'];
+$client->c_dob= $validated['dob'];
 
-$client->department_id = $validated['department'];
 
+/*$client->department_id = $validated['department'];
+*/
 $client->save();
 Session::flash('success', 'Client is updated successfully'); 
 
@@ -106,10 +144,11 @@ public function detail($id){
 $visit=Taskassign::where('client_id',$id)->get()->count();
 
 $ticket=Ticket::where('client_id',$id)->get()->count();
+$client=Client::where('id',$id)->get()->first();
 
 /*$client=Client::with('taskassign','ticket')->get()->count();
 */
-return view('admin.clients.client-detail')->with(compact('visit','ticket'));
+return view('admin.clients.client-detail')->with(compact('visit','ticket','client'));
 
 }
 

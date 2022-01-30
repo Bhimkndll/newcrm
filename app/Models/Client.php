@@ -9,7 +9,7 @@ class Client extends Model
 {
     use HasFactory;
       protected $fillable = [
-        'fullname','address','phone','bhim',
+        'fullname','address','phone','user_id',
         
     ];
 
@@ -29,5 +29,10 @@ class Client extends Model
 
      public function ticket(){
      return $this->hasOne(Ticket::class);
+    }
+    
+  public function user(){
+      return $this->BelongsTo(User::class);
+
     }
 }

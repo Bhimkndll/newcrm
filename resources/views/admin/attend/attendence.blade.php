@@ -1,8 +1,7 @@
+  
 @extends('admin.master')
 
 @section('child_content')
-
-
 
 
             <div id="page-inner">
@@ -11,7 +10,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            Tasks <small>Manage task</small>
+                            User <small>Attendence</small>
                         </h1>
            <!--  <ol class="breadcrumb">
   <li><a href="#">Home</a></li>
@@ -31,6 +30,7 @@
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                        
+                     
                         <div class="panel-body">
                             <div class="table-responsive">
                                  
@@ -41,74 +41,35 @@
                                         <tr>
                                          <th>SN:</th>
 
-                                             <th>Client</th>
-                                            <th>Address</th>
-                                            <th>Phone</th>
-                                            <th>Purpose</th>
-                                            <th>Reason</th>
+                                             <th>User</th>
+                                            <th>Entry time</th>
+                                            <th>Entry Counts</th>
 
-                                            <th>Task To</th>
-                                            <th>Status</th>
+                                            <th>Time kill</th>
 
+                                            <th>Exit time</th>
 
+                                         
+                                          
                                         </tr>
                                     </thead>
                                     <tbody>
 
-
-                                        @foreach($clients as $client)
+@foreach($attends as $attend)
                                         <tr class="odd gradeX">
                                         <td> {{$loop->iteration}}</td>
 
-                                         <td>{{$client->fullname}}</td>
-                                            <td>{{$client->address}}</td>
-                                            <td>{{$client->phone}}</td>
-                                            <td class="center">
+                                         <td>{{$attend->user->name}}</td>
+                                            <td>{{$attend->entry_time}}</td>
+                                            <td>{{$attend->entry_counts}}</td>
+                                            <td>1</td>
 
+                                            <td>{{$attend->exit_time}}</td>
+                                          
 
-{!! !empty($client->taskassign->purpose) ? $client->taskassign->purpose : 'Please insert purpose' !!}
-
-
-
-                                            </td>
-
-
-                                             <td class="center">
-
-
-{!! !empty($client->taskassign->purpose) ? $client->taskassign->reason : 'Please insert reason' !!}
-
-
-
-                                            </td>
-
-
-@if(!empty($client->taskassign->user_id))
-
-
-@foreach($users as $user)
- 
-@if($user->id===$client->taskassign->user_id)
- <td class="center">{{$user->name}}</td>
- @endif
-@endforeach
-
-@endif
-
-
-
-                                             <td class="center btn btn-sm btn-primary">
-
-
-{!! !empty($client->taskassign->status) ? $client->taskassign->status : 'Warning' !!}
-
-
-                                            </td>
-                                         
 
                                         </tr>
-                                      @endforeach
-
+@endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -120,23 +81,8 @@
 
                 </div>
         
-        
-                
-                <!-- /. ROW  -->
-                <!-- start for add customer -->
-
-
-<!-- for user create form -->
-
-<!-- rroo -->
-
-
-
-
-<!-- Modal -->
-
-<!-- end for create form -->
-    <script src="{{asset('asset/front/js/jquery-1.10.2.js')}}"></script>
+        </div>
+<script src="{{asset('asset/front/js/jquery-1.10.2.js')}}"></script>
 
         <script src="{{asset('/asset/front/js/dataTables/jquery.dataTables.js')}}"></script>
 
@@ -147,5 +93,4 @@
             });
     </script>
 
-<!-- end for  add customer -->
 @endsection

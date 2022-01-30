@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+        use Illuminate\Support\Facades\Gate;
+
 
 class RegisterController extends Controller
 {
@@ -55,7 +57,8 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'address'=>['required','string','max:25','min:8'],
-            'phone'=>['required','string','min:10'],
+            'phone'=>['required','string','min:10','max:10'],
+
             'role'=>['required']
 
 
@@ -70,6 +73,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
+
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],

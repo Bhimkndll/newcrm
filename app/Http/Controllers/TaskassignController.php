@@ -24,7 +24,7 @@ class TaskassignController extends Controller
 
 
 public function add(Request $request,$id){
-
+/*user role*/
 $client=Client::findorfail($id);
 $validated = request()->validate([
     'department'=>'required',
@@ -36,10 +36,12 @@ Taskassign::create([
     'department_id'=> $validated['department'],
     'user_id'=> $validated['user'],
     'client_id'=> $client->id,
-    'purpose' => $validated['purpose'],
+    'purpose_id' => $validated['purpose'],
     'status'=>"pending",
+    'reason'=>$validated['reason'],
 ]);
-    return redirect()->route('client.show');
+$user=User::findorfail($validated['user']);
+    return redirect()->route('client.show')->with('success','Task assign successfully to  '.$user->name);
 
 }
 

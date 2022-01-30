@@ -13,7 +13,7 @@ class Taskassign extends Model
         'department_id',
         'user_id',
         'client_id',
-        'purpose',
+        'purpose_id',
         'reason',
         
         ];

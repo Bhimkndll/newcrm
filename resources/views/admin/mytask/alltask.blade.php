@@ -18,6 +18,8 @@
                                              <th>ClientName</th>
                                             <th>Department</th>
                                             <th>Purpose</th>
+                                                                                        <th>Reason</th>
+
                                             <th>User</th>
 
                                             <th>Action</th>
@@ -34,18 +36,28 @@
                                          <td>{{$task->client->fullname}}</td>
                                             <td>{{$task->department->department}}</td>
                                             <td>{{$task->purpose}}</td>
+                                                                                        <td>{{$task->reason}}</td>
+
                                             <td>{{$task->user->name}}</td>
 
                                             <td class="center">
-                                                
-                                                <a class="btn btn-sm btn-primary" href="{{route('mytask.completed',['id'=>$task->id])}}"><i class="fa fa-check fa-2x"></i></a>
-                                                
-                                                <a class="btn btn-sm btn-danger" href="{{route('mytask.processing',['id'=>$task->id])}}"><i class="fa fa-gear fa-spin fa-2x"></i></a>
-                                                  
-                                                    <a class="btn btn-sm btn-danger" href="{{route('mytask.pending',['id'=>$task->id])}}"><i class="fa fa-refresh fa-spin fa-2x"></i></a>
-                                                     
-                                                     <a class="btn btn-sm btn-danger" href="{{route('mytask.cancelled',['id'=>$task->id])}}"><i class="fa fa-times fa-2x"></i> </a>
 
+                                              @can('admin')  
+
+                                                
+                                                <a class="btn btn-sm btn-danger"data-toggle="modal" data-target="#taskreason" onclick="myFunction({{$task->id}},'{{$task->task_reason}}','Pending')"><i class="fa fa-gear fa-spin "></i></a>
+                                                  
+                                                       <a class="btn btn-sm btn-danger"data-toggle="modal" data-target="#taskreason" onclick="myFunction({{$task->id}},'{{$task->task_reason}}','Processing')"><i class="fa fa-refresh fa-spin "></i></a>
+                                                  
+
+                                                 <a class="btn btn-sm btn-primary"data-toggle="modal" data-target="#taskreason" onclick="myFunction({{$task->id}},'{{$task->task_reason}}','Complete')"><i class="fa fa-check "></i></a>
+                                                
+                                                  
+                                                     
+                                                     <a class="btn btn-sm btn-danger"data-toggle="modal" data-target="#taskreason"onclick="myFunction({{$task->id}},'{{$task->task_reason}}','Cancelled')"><i class="fa fa-times "></i> </a>
+
+
+@endcan
 
                                             </td>
 
@@ -57,4 +69,12 @@
                                     </tbody>
                                 </table>
                             </div>
+
+
+
+@include('admin.mytask.task-reason')
+
+
+
+
 @endsection

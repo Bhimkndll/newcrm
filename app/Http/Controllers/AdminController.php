@@ -8,14 +8,59 @@ use Illuminate\Support\Facades\Session;
  use Illuminate\Session\Store;
 use Illuminate\Http\Request;
 use App\Models\Department;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Taskassign;
+
+
 class AdminController extends Controller
 {
-    public function index(){
-        return view('child.dashboard')->with('departs',Department::all());
+public function index(){
+    $total=Taskassign::count();
+    $pending=$this->pending_status($total);
+    $complete=$this->complete_status($total);
+    $cancel=$this->cancel_status($total);
+        $process=$this->process_status($total);
+
+    $departs=Department::all();
+   return view('child.dashboard')->with(compact('pending','complete','cancel','process','departs'));
     }
 
-public function add(Request $request){
+/*function to be called during first load of app*/
 
+ function pending_status($total){
+$count=Taskassign::where('status','Pending')->count();
+
+ return ($count/$total)*100;
+
+}
+ function process_status($total){
+$count=Taskassign::where('status','Processing')->count();
+
+ return ($count/$total)*100;
+
+}
+ function complete_status($total){
+$count=Taskassign::where('status','Completed')->count();
+
+ return ($count/$total)*100;
+
+}
+function cancel_status($total){
+$count=Taskassign::where('status','Cancelled')->count();
+
+ return ($count/$total)*100;
+
+}
+/*end of function to be called during first load*/
+
+
+
+
+public function add(Request $request){
+if (! Gate::allows('user')) {
+            abort(403);
+        }
 $validated = request()->validate([
   'fullname' => 'required',
   'address'=>'required',
@@ -43,7 +88,14 @@ else{
 
 
 public function users(){
-    $users=User::all('id','name','email','phone','role','address');
+
+
+if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
+
+
+    $users=User::all('id','name','email','phone','role','address','status');
     return view('admin.users.user')->with('users',$users);
  }
 
@@ -51,7 +103,15 @@ public function users(){
 
 
 public function user_delete($id){
+if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
+
  $users = User:: find($id);
+
+if($users->taskassign()->count()>0){
+return redirect()->back()->with(['warning'=> 'Sorry you cannot delete this user you first delete task done by this user']);
+}
 if($users != null)
 {
 $users->delete();
@@ -63,6 +123,10 @@ return redirect()->back()->with(['message'=> 'Successfully deleted!']);
 
 
  public function user_edit($id){
+    
+if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
     $user=User::findorfail($id);
     if($user!= null){
 
@@ -70,14 +134,19 @@ return redirect()->back()->with(['message'=> 'Successfully deleted!']);
     }
  }
 public function user_update(Request $request ,$id){
+    
+if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
 $user=User::find($id);
 if($user){
 $validated = request()->validate([
    'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
-            'address'=>['required','string','max:25','min:8'],
-            'phone'=>['required','string','min:10'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+
+            'password' => $request->input('password') != null?['required', 'string', 'min:8']:'',
+            'address'=>['required','string','max:25','min:2'],
+            'phone'=>['required','string','min:10','max:10'],
             'role'=>['required']
 
 ]);
@@ -88,8 +157,8 @@ $user->address= $validated['address'];
 
 $user->phone = $validated['phone'];
 $user->role =  $validated['role'];
-
-$user->password= Hash::make($validated['password']);
+$request->input('password') != null?$user->password= Hash::make($validated['password'])
+:'';
 $user->save();
 Session::flash('success', 'User is updated successfully'); 
 
@@ -106,7 +175,18 @@ else{
 
 
 
+public function status($id){
 
+    $user=User::findorfail($id);
+
+    if($user->role=='level3'){
+        return redirect()->back()->with('error','You are super admin you cannot perform this');
+    }
+
+    $user->status=!$user->status;
+    $user->save();
+    return redirect()->back();
+}
 
 
 

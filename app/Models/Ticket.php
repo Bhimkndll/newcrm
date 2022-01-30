@@ -20,7 +20,11 @@ public function client(){
     return $this->BelongsTo(Client::class);
 }
 
+   
+  public function user(){
+      return $this->BelongsTo(User::class);
 
+    }
 }
 
 

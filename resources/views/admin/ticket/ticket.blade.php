@@ -18,7 +18,7 @@
 
           <div class="form-group ticket">
 <label for="recipient-name" class="control-label">ClintName:</label>
-            <input type="text" class="form-control" id="recipient-name"value="" name="clientname" required>
+            <input type="text" class="form-control" id="recipient-name"value="" name="clientname"disabled required>
             <a href="{{route('client.ticket.show')}}">
             <button type ="button"class="btn btn-primary data">Select from data</button>
 </a>
@@ -27,10 +27,14 @@
 
   <div class="form-group ticket">
             <label for="message-text" class="control-label">Date:</label>
-  <input type="datetime-local"class="form-control" id="birthdaytime" name="date">
+  <input type="date"class="form-control" id="birthdaytime" name="date">
  
           </div>
 
+ <div class="form-group ticket">
+            <label for="message-text" class="control-label">Time:</label>
+            <input type="time" class="form-control" id="message-text"value=""name="time" required>
+          </div>
 
 
           <div class="form-group ticket">
@@ -40,11 +44,7 @@
 
 
       
-           <div class="form-group ticket">
-            <label for="message-text" class="control-label">Time:</label>
-            <input type="time" class="form-control" id="message-text"value=""name="time" required>
-          </div>
-
+          
 
       
            <div class="form-group ticket">
@@ -58,7 +58,7 @@
            <div class="form-group ticket">
             <label for="message-text" class="control-label">Description:</label>
 
-    <textarea class="form-control" id="exampleFormControlTextarea2" rows="2" name="description"></textarea>
+    <textarea class="form-control" id="exampleFormControlTextarea2" rows="4" name="description"></textarea>
  
           </div>
 

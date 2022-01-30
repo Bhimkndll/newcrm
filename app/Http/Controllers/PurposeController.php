@@ -3,10 +3,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Purpose;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Gate;
 
 class PurposeController extends Controller
 {
       public function add(Request $request){
+        if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
 
 $validated = request()->validate([
   'name' => 'required',
@@ -28,23 +32,37 @@ else{
     }}
 
 public function show(){
+    if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
     $purposes=Purpose::all('name','id');
     return view('admin.purpose.Purpose')->with('purposes',$purposes);
 }
 
 public function purpose_delete($id){
- $depart = Purpose:: find($id);
-if($depart != null)
-{
-$depart->delete();
-Session::flash('info', 'Purpose is deleted successfully'); 
+    if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
+ $pur = Purpose:: findorfail($id);
+ 
 
-return redirect()->back()->with(['message'=> 'Successfully deleted!']);
+if($pur->taskassign()->count()>0){
+return redirect()->back()->with(['warning'=> 'Sorry you cannot delete this you should remove task first ']);
+}
+
+if($pur != null)
+{
+$pur->delete();
+
+return redirect()->back()->with(['info'=> 'Purpose Successfully deleted!']);
 }
  }
 
 
  public function purpose_edit($id){
+    if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
     $purpose=Purpose::findorfail($id);
     if($purpose!= null){
 

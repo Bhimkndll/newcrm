@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            Edit Department <small></small>
+                            Edit Purpose <small></small>
                         </h1>
            <!--  <ol class="breadcrumb">
   <li><a href="#">Home</a></li>

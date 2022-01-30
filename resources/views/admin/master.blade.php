@@ -21,6 +21,59 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
    <!-- toaster -->
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+
+<script type="text/javascript">
+    function deleteConfirmation(id) {
+        swal({
+            title: "Quit the system",
+            text: "!!!Do you like to exit from the system Please confirm!",
+            type: "warning",
+            showCancelButton: !0,
+            confirmButtonText: "Yes, Quit!",
+            cancelButtonText: "No, cancel!",
+            cancelButton:'btn btn-primary',
+              confirmButtonColor: 'red',
+            cancelButttonColor: '#8CD4F5',
+
+
+
+            reverseButtons: !0
+        }).then(function (e) {
+
+            if (e.value === true) {
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+                $.ajax({
+                    type: 'get',
+                    url: "{{url('/user/exit')}}/",
+                    data: {_token: CSRF_TOKEN},
+                    dataType: 'JSON',
+
+success: function(response) {
+       window.location.href = "/dashboard";
+    
+                        if (results.success === true) {
+                            swal("Done!", results.message, "success");
+                        } else {
+                            swal("Error!", results.message, "error");
+                        }
+                    }
+                });
+
+            } else {
+                e.dismiss;
+            }
+
+        }, function (dismiss) {
+            return false;
+        })
+    }
+
+</script>
 
 
 </head>
@@ -40,134 +93,8 @@
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-messages">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Doe</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Today</em>
-                                    </span>
-                                </div>
-                                <div>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem Ipsum has been the industry's standard dummy text ever since an kwilnw...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem Ipsum has been the industry's standard dummy text ever since the...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>Read All Messages</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-messages -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-tasks">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 1</strong>
-                                        <span class="pull-right text-muted">60% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                            <span class="sr-only">60% Complete (success)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 2</strong>
-                                        <span class="pull-right text-muted">28% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100" style="width: 28%">
-                                            <span class="sr-only">28% Complete</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 3</strong>
-                                        <span class="pull-right text-muted">60% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                            <span class="sr-only">60% Complete (warning)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 4</strong>
-                                        <span class="pull-right text-muted">85% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%">
-                                            <span class="sr-only">85% Complete (danger)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>See All Tasks</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-tasks -->
+               
+              
                 </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
@@ -202,14 +129,16 @@
                             </a>
                         </li> -->
                         <li class="divider"></li>
-                        <li>
-                            <a href="{{route('mytask')}}">
+                        
+                    <li>
+                            <a href="{{route('mytaskshow')}}">
                                 <div>
                                     <i class="fa fa-tasks fa-fw"></i> My Tasks
                                     <span class="pull-right text-muted small">4 min</span>
                                 </div>
                             </a>
                         </li>
+                        
                         <li class="divider"></li>
                        <!--  <li>
                             <a href="#">
@@ -235,13 +164,25 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i></a>
                         </li>
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li>
+
+                              <a  href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                                     <i class="fa fa-sign-out fa-fw"></i>
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                  
                         </li>
+                          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
@@ -257,92 +198,69 @@
                         <a class=
 "{{(request()->is('dashboard')) ? 'active-menu' : '' }}"href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i> Dashboard</a>
                     </li>
+
+
+                    @can('super-admin')
                      <li>
                         <a class=
-"{{(request()->is('users/show')) ? 'active-menu' : '' }}" href="{{route('users.show')}}"><i class="fa fa-user"></i>Users</a>
+"{{(request()->is('users*')) ? 'active-menu' : '' }}" href="{{route('users.show')}}"><i class="fa fa-user"></i>Users</a>
                     </li>
+                    @endcan
                     
  <li>
                         <a class=
-"{{(request()->is('client/show')) ? 'active-menu' : '' }}"href="{{route('client.show')}}"><i class="fa fa-user"></i>Clients</a>
+"{{(request()->is('client*')) ? 'active-menu' : '' }}"href="{{route('client.show')}}"><i class="fa fa-users"></i>Clients</a>
                     </li>
+                    @can('super-admin')
                      <li>
-                        <a  class="{{(request()->is('department/show')) ? 'active-menu' : '' }}"href="{{route('department.show')}}"><i class="fa fa-desktop"></i>Departments</a>
+                        <a  class="{{(request()->is('department*')) ? 'active-menu' : '' }}"href="{{route('department.show')}}"><i class="fa fa-building-o"></i>Departments</a>
                     </li>
+                    @endcan
 
+@can('super-admin')
 <li>
-                        <a  class="{{(request()->is('purpose/show')) ? 'active-menu' : '' }}"href="{{route('purpose.show')}}"><i class="fa fa-desktop"></i>Purposes</a>
+                        <a  class="{{(request()->is('purpose/show')) ? 'active-menu' : '' }}"href="{{route('purpose.show')}}"><i class="fa fa-cogs"></i>Purposes</a>
                     </li>
 
-
-<li>
-                        <a  class="{{(request()->is('task/show')) ? 'active-menu' : '' }}"href="{{route('task.show')}}"><i class="fa fa-desktop"></i>Task</a>
-                    </li>
+@endcan
 
 
-<li>
-                        <a  class="{{(request()->is('ticket')) ? 'active-menu':''}}"href="{{route('ticket')}}"><i class="fa fa-desktop"></i>Ticket Booking</a>
-                    </li>
-
-
+                <button class="btn btn-danger" onclick="deleteConfirmation(1)">Delete</button>
 
 
 <li>
-                        <a  class="{{(request()->is('ticket/confirm')) ? 'active-menu':''}}"href="{{route('ticket.confirm')}}"><i class="fa fa-desktop"></i> Booked Info</a>
+                        <a  class="{{(request()->is('task*')) ? 'active-menu' : '' }}"href="{{route('task.show')}}"><i class="fa fa-briefcase"></i>Task</a>
                     </li>
 
 
 
-
-                    <li>
-                        <a href="{{route('tabs')}}"><i class="fa fa-desktop"></i> UI Elements</a>
-                    </li>
-          <li>
-                        <a href="chart.html"><i class="fa fa-bar-chart-o"></i> Charts</a>
-                    </li>
-                    <li>
-                        <a href="{{route('tabs')}}"><i class="fa fa-qrcode"></i> Tabs & Panels</a>
-                    </li>
-                    
-                    <li>
-                        <a href="table.html"><i class="fa fa-table"></i> Responsive Tables</a>
-                    </li>
-                    <li>
-                        <a href="form.html"><i class="fa fa-edit"></i> Forms </a>
+<li>
+                        <a  class="{{(request()->is('ticket')) ? 'active-menu':''}}"href="{{route('ticket')}}"><i class="fa fa-ticket"></i>Ticket Booking</a>
                     </li>
 
 
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Second Level Link</a>
-                            </li>
-                            <li>
-                                <a href="#">Second Level Link</a>
-                            </li>
-                            <li>
-                                <a href="#">Second Level Link<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Third Level Link</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Link</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Link</a>
-                                    </li>
-
-                                </ul>
-
-                            </li>
-                        </ul>
+<li>
+                        <a  class="{{(request()->is('exit')) ? 'active-menu' : '' }}"href="{{route('exit')}}"><i class="fa fa-id" aria-hidden="true"></i>Exit</a>
                     </li>
-                    <li>
-                        <a href="empty.html"><i class="fa fa-fw fa-file"></i> Empty Page</a>
+
+
+<li>
+                        <a  class="{{(request()->is('ticket/confirm')) ? 'active-menu':''}}"href="{{route('ticket.confirm')}}"><i class="fa fa-plane"></i>TodayFlight</a>
                     </li>
-                </ul>
+
+
+@can('super-admin')
+<li>
+                        <a  class="{{(request()->is('attendence')) ? 'active-menu' : '' }}"href="{{route('attend')}}"><i class="fa fa-id" aria-hidden="true"></i>
+
+Attendence</a>
+                    </li>
+
+@endcan
+ 
+
+                   
+          </ul>
 
             </div>
 

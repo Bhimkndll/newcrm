@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            purpose <small>Manage Departments</small>
+                            Purpose <small>Manage purpose</small>
                         </h1>
            <!--  <ol class="breadcrumb">
   <li><a href="#">Home</a></li>

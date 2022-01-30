@@ -5,19 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Purpose extends Model
+class Attendence extends Model
 {
     use HasFactory;
-     protected $fillable = [
-        'name'
+
+protected $fillable = [
+        'user_id','entry_time','entry_counts'
         
     ];
 
 
-    
-     public function  taskassign(){
+     public function user(){
+      return $this->BelongsTo(User::class);
 
-      return $this->hasOne(Taskassign::class);
     }
-
 }

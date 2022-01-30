@@ -3,15 +3,29 @@
 @section('child_content')
 
 
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">Update Client</h4>
-      </div>
-      <div class="modal-body">
+   <div id="page-inner">
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-header">
+                            Edit Client <small></small>
+                        </h1>
+           <!--  <ol class="breadcrumb">
+  <li><a href="#">Home</a></li>
+  <li><a href="#">Library</a></li>
+  <li class="active">Data</li>
+</ol> -->
+                    </div>
+                </div>
+        
+  <div class="modal-body Department-update">
+<script type="text/javascript">toastr.info('Are you the 6 fingered man?')
+</script>
+
 @include('layouts.message')
 
-
+    
 
       <form  id="targets" action="{{route('client.update',['id'=>$client->id])}}" method = "post">
                 {{ csrf_field() }}
@@ -21,10 +35,20 @@
             <input type="text" class="form-control" id="recipient-name"value="{{$client->fullname}}" name="fullname" required>
           </div>
           <div class="form-group">
+            <label for="message-text" class="control-label">Email:</label>
+            <input type="email" class="form-control" id="email" value="{{$client->c_email}}" name="email">
+          </div>
+
+          <div class="form-group">
             <label for="message-text" class="control-label">Address:</label>
             <input type="text" class="form-control" id="message-text" value="{{$client->address}}" name="address" required>
           </div>
 
+
+           <div class="form-group">
+            <label for="message-text" class="control-label">Date of Birth</label>
+            <input type="date" class="form-control" id="message-text"value="{{$client->c_dob}}"name="dob">
+          </div>
 
       
            <div class="form-group">
@@ -58,8 +82,22 @@
         <input type="submit" class="btn btn-primary"id="targets">
       </div>
         </form>
+
+
+
+
       </div>
-     
-    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+    
   
 @endsection

@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            Dashboard <small>Summary of your App</small>
+                            Dashboard <small>Summary of your Company</small>
                         </h1>
            <!--  <ol class="breadcrumb">
   <li><a href="#">Home</a></li>
@@ -24,14 +24,16 @@
         
                 <!-- /. ROW  -->
 
+
                 <div class="row">
                     @include('layouts.message')
 
                     <div class="col-md-3 col-sm-12 col-xs-12">
+    
 
                         <a  data-toggle="modal" href="#exampleModal">
-                        <div class="panel panel-primary text-center no-boder bg-color-blue blue">
-                            <div class="blue">
+                        <div class="panel panel-primary text-center no-boder client bg-color-teal teal">
+                            <div class="teal">
                                 <i class="fa fa-plus fa-5x"></i> 
                             </div>
                             
@@ -43,11 +45,13 @@
                     </div>
 
 
+
+@can('super-admin')
  <div class="col-md-3 col-sm-12 col-xs-12">
 
    <a data-toggle="modal" data-target="#department">
-                        <div class="panel panel-primary text-center no-boder bg-color-blue blue">
-                            <div class="blue">
+                        <div class="panel panel-primary text-center no-boder depart bg-color-heart heart">
+                            <div class="heart">
                                 <i class="fa fa-plus fa-5x"></i> 
                             </div>
                             
@@ -59,15 +63,18 @@
                     </div>
 
 
+
+@endcan
+
                 </div>
         
     
-    <div class="row">
+    <div class="row ">
       <div class="col-xs-6 col-md-3">
         <div class="panel panel-default">
           <div class="panel-body easypiechart-panel">
-            <h4>Customers</h4>
-            <div class="easypiechart" id="easypiechart-blue" data-percent="82" ><span class="percent">82%</span>
+            <h4>TaskPending</h4>
+            <div class="easypiechart" id="easypiechart-blue" data-percent={{$pending}} ><span class="percent">{{number_format((float)$pending, 2, '.', '')}}%</span>
             </div>
           </div>
         </div>
@@ -75,8 +82,8 @@
       <div class="col-xs-6 col-md-3">
         <div class="panel panel-default">
           <div class="panel-body easypiechart-panel">
-            <h4>Sales</h4>
-            <div class="easypiechart" id="easypiechart-orange" data-percent="55" ><span class="percent">55%</span>
+            <h4>TaskProcessing</h4>
+            <div class="easypiechart" id="easypiechart-orange" data-percent={{$process}} ><span class="percent">{{number_format((float)$process, 2, '.', '')}}%</span>
             </div>
           </div>
         </div>
@@ -84,8 +91,8 @@
       <div class="col-xs-6 col-md-3">
         <div class="panel panel-default">
           <div class="panel-body easypiechart-panel">
-            <h4>Profits</h4>
-            <div class="easypiechart" id="easypiechart-teal" data-percent="84" ><span class="percent">84%</span>
+            <h4>TaskComplete</h4>
+            <div class="easypiechart" id="easypiechart-teal" data-percent={{$complete}} ><span class="percent">{{number_format((float)$complete, 2, '.', '')}}%</span>
             </div>
           </div>
         </div>
@@ -93,15 +100,15 @@
       <div class="col-xs-6 col-md-3">
         <div class="panel panel-default">
           <div class="panel-body easypiechart-panel">
-            <h4>No. of Visits</h4>
-            <div class="easypiechart" id="easypiechart-red" data-percent="46" ><span class="percent">46%</span>
+            <h4>TaskCancelled</h4>
+            <div class="easypiechart" id="easypiechart-red" data-percent={{$cancel}} ><span class="percent">{{number_format((float)$cancel, 2, '.', '')}}%</span>
             </div>
           </div>
         </div>
       </div>
     </div><!--/.row-->
         
-        
+        <!-- 
                 <div class="row">
                     <div class="col-md-9 col-sm-12 col-xs-12">
                         <div class="panel panel-default">
@@ -113,6 +120,10 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
                     <div class="col-md-3 col-sm-12 col-xs-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -136,7 +147,7 @@
             </div>
           </div>  
           </div>    
-        </div>  
+        </div>   -->
                 <!-- /. ROW  -->
 
      
@@ -164,9 +175,26 @@
 <label for="recipient-name" class="control-label">FullName:</label>
             <input type="text" class="form-control" id="recipient-name" name="fullname" required>
           </div>
+
+ <div class="form-group">
+            <label for="message-text" class="control-label">Email:</label>
+            <input type="text" class="form-control" id="message-text" name="email">
+          </div>
+
+
+
           <div class="form-group">
             <label for="message-text" class="control-label">Address:</label>
-            <input type="text" class="form-control" id="message-text" name="address" required>
+            <input type="text" class="form-control" id="message-text" name="address">
+          </div>
+
+
+
+
+  <div class="form-group ticket">
+            <label for="message-text" class="control-label">Date:</label>
+  <input type="date"class="form-control" id="birthdaydate" name="dob">
+ 
           </div>
 
 
@@ -176,23 +204,8 @@
             <input type="text" class="form-control" id="message-text"name="phone" required>
           </div>
 
-<!-- 
-
-<div class="form-group">
-    <label class="input-group-text" for="inputGroupSelect01">Purpose</label>
 
 
-  <select class="custom-select form-control" name="department">
-
-@foreach($departs as $depart)
-
-    <option selected value="{{$depart->id}}">{{$depart->department}}</option>
-   
-@endforeach
-
-  </select>
-</div>
- -->
            <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <input type="submit" class="btn btn-primary"id="targets">

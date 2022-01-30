@@ -9,6 +9,8 @@ use App\Http\Controllers\TaskassignController;
 
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\AttendenceController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,16 +22,22 @@ use App\Http\Controllers\TicketController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 
 Route::get('/', function () {
     return view('auth.login');
 });
 
+Auth::routes();
+Route::group(['prefix' => '','middleware'=>['status','auth']], function () {
+
+
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
-Route::group(['prefix' => 'admin'], function () {
-});
+
 
 Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'index'])->name('dashboard');
 Route::get('/tabs', [App\Http\Controllers\AdminController::class, 'tabs'])->name('tabs');
@@ -38,6 +46,8 @@ Route::get('/tabs', [App\Http\Controllers\AdminController::class, 'tabs'])->name
 
 /*users */
 Route::get('/users/show', [AdminController::class, 'users'])->name('users.show');
+Route::get('/users/status/{id}', [AdminController::class, 'status'])->name('user.status');
+
 
 Route::get('/users/edit/{id}', [AdminController::class, 'user_edit'])->name('user.edit');
 Route::get('/users/delete/{id}', [AdminController::class, 'user_delete'])->name('user.delete');
@@ -86,7 +96,7 @@ Route::post('/purpose/update/{id}', [PurposeController::class, 'purpose_update']
 /*task assign */
 
 Route::get('/task/assign/{id}', [TaskassignController::class, 'show'])->name('task.assign');
-Route::post('/task/add/{id}', [TaskassignController::class, 'add'])->name('task.add');
+Route::post('/task/add/{id}', [TaskassignController::class, 'add'])->name('task.add');/*user role*/
 /*end for tsk assign*/
 
 
@@ -96,7 +106,7 @@ Route::get('/task/assign/{id}', [TaskassignController::class, 'show'])->name('ta
 Route::get('/task/show', [TaskController::class, 'show'])->name('task.show');
 
 /*mytask*/
-Route::get('/mytask', [TaskController::class, 'mytask'])->name('mytask');
+Route::get('/task', [TaskController::class, 'mytask'])->name('mytaskshow');
 Route::get('/mytask/completed/{id}', [TaskController::class, 'complete'])->name('mytask.completed');
 Route::get('/mytask/cancelled/{id}', [TaskController::class, 'cancel'])->name('mytask.cancelled');
 
@@ -146,7 +156,7 @@ Route::post('/ticket/booking/{id}', [TicketController::class, 'ticket_booking'])
 
 /*ticket booking confirm*/
 
-Route::get('ticket/confirm', [TicketController::class, 'ticket_confirm'])->name('ticket.confirm');
+Route::get('ticket/confirm', [TicketController::class, 'ticket_confirm_today'])->name('ticket.confirm');
 
 
 /*ticket confirm */
@@ -156,8 +166,25 @@ Route::get('ticket/confirm/delete/{id}', [TicketController::class, 'ticket_delet
 
 
 Route::get('ticket/booking/update/{id}', [TicketController::class, 'ticket_save'])->name('ticket.booking.update');
+Route::post('ticket/booking/save/{id}', [TicketController::class, 'ticket_save'])->name('ticket.booking.save');
 
 
 Route::get('ticket/fill', [TicketController::class, 'index'])->name('ticket.fill');
 
 Route::get('client/detail/{id}', [ClientController::class, 'detail'])->name('client.detail');
+Route::get('ticket/confirm/{id}', [TicketController::class, 'booked_delete'])->name('ticket.confirm.delete');
+
+/*task completed or pending or cnacelled or processong with resons*/
+Route::post('task/status/reason', [TaskController::class, 'task_reason_status'])->name('task.reason.status');
+/*end of varied task reasons*/
+
+
+/*attendence*/
+
+Route::get('attend', [AttendenceController::class, 'attend'])->name('attend');
+Route::get('user/exit', [App\Http\Controllers\Auth\LoginController::class,'exit'])->name('exit');
+
+/*App\Http\Controllers\Auth\LoginController@login 
+App\Http\Controllers\Auth\LoginController@logout 
+*/
+});

@@ -5,9 +5,20 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div class="card-header">
+                    
+
+<div class="log">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            <a class="navbar-brand" style="font-size:40px;" href="index.html"><b>C</b>RM</a>
+
+</div>
+
+
+                </div>
 
                 <div class="card-body">
+
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -70,4 +81,16 @@
         </div>
     </div>
 </div>
+
+
+
+    <script type="text/javascript">
+
+
+  @if(Session::has('error'))
+        toastr.error("{{ Session::get('error') }}");
+  @endif
+
+
+    </script>
 @endsection

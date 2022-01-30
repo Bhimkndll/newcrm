@@ -13,7 +13,7 @@
 
 
 
-      <form  id="targets" action="{{route('ticket.booking.update',['id'=>$ticket->id])}}" method = "post">
+      <form  id="targets" action="{{route('ticket.booking.save',['id'=>$ticket->id])}}" method = "post">
                 {{ csrf_field() }}
 
           <div class="form-group ticket">
@@ -27,7 +27,7 @@
 
   <div class="form-group ticket">
             <label for="message-text" class="control-label">Date:</label>
-  <input type="datetime-local"class="form-control" id="birthdaytime" name="date"value={{$ticket->date}}>
+  <input type="date"class="form-control" id="birthdaytime" name="date"value={{$ticket->date}}>
  
           </div>
 
@@ -35,7 +35,7 @@
 
           <div class="form-group ticket">
             <label for="message-text" class="control-label">Departure:</label>
-            <input type="text" class="form-control" id="message-text" value="{{$ticket->daparture}}" name="departure" required>
+            <input type="text" class="form-control" id="message-text" value="{{$ticket->departure}}" name="departure" required>
           </div>
 
 

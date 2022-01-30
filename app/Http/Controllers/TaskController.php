@@ -7,30 +7,37 @@ use App\Models\Taskassign;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
     public function show(){
+/*if (! Gate::allows('admin')) {
+            abort(403);
+        }*/
+
 $users=User::all('id','name');
 $clients=Client::with('taskassign','department')->get();
 return view('admin.task.task')->with(compact('clients','users'));
-
-    }
+}
 
     /*for specific client task*/
     public function mytask(){
-    
-    $tasks=Taskassign::with('user','department','client')->where(['user_id'=>Auth::id(),'status'=>"pending"])->get();
+    if (! Gate::allows('admin')) {
+            abort(403);
+        }
+      $tasks=Taskassign::with('user','department','client')->where(['user_id'=>Auth::id(),'status'=>"Pending"])->get();
       return view('admin.mytask.mytask')->with('tasks',$tasks);  
-
-
-
-    }
+}
 
 
 
 
 public function alltask($id){
+
+    if (! Gate::allows('admin')) {
+            abort(403);
+        }
 if($id=="completed"){
 $tasks=Taskassign::with('user','department','client')->where(['user_id'=>Auth::id(),'status'=>$id])->get();
 return view('admin.mytask.alltask')->with('tasks',$tasks);    
@@ -41,12 +48,10 @@ else {
 }
 
 }
-
-
-
-
 public function all($id){
-
+    if (! Gate::allows('admin')) {
+            abort(403);
+        }
 if($id=="All"){
 
 $tasks=Taskassign::with('user','department','client')->where(['user_id'=>Auth::id()])->get();
@@ -58,51 +63,81 @@ elseif(in_array($id,array('Pending','Completed','Cancelled','Processing')))
 return view('admin.mytask.alltask',compact('tasks'));       
 }
 else{
-
-    abort(404);
+abort(404);
 }
 }
-
-
-
-
-
-
 public function complete($id){
+    if (! Gate::allows('admin')) {
+            abort(403);
+        }
 $task=Taskassign::findorfail($id);
-$task->status = "completed";
+$task->status = "Completed";
 $task->save();
-return redirect()->back();
+return redirect()->back()->with('success','Task marked as completed');
 }
 public function cancel($id){
-
+if (! Gate::allows('admin')) {
+            abort(403);
+        }
 
 $task=Taskassign::findorfail($id);
-$task->status = "cancelled";
+$task->status = "Cancelled";
 $task->save();
-return redirect()->back();
+return redirect()->back()->with('success','Task marked as cancel');
 
 }
 public function processing($id){
 
-
+if (! Gate::allows('admin')) {
+            abort(403);
+        }
 $task=Taskassign::findorfail($id);
 $task->status = "processing";
 $task->save();
-return redirect()->back();
+return redirect()->back()->with('success','Task marked as Processing');
 
 }
 
 public function pending($id){
-
-
+if (! Gate::allows('admin')) {
+abort(403);
+        }
 $task=Taskassign::findorfail($id);
-$task->status = "pending";
+$task->status = "Pending";
 $task->save();
-return redirect()->back();
+return redirect()->back()->with('success','Task marked as Pending');
+}
+public function task_reason_status(Request $request){
+
+if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
+$validated = request()->validate([
+  'task_id' => 'required',
+  'task_reason'=>'nullable|string|min:4',
+  'status'=>'required'
+ ]);
+
+$task=Taskassign::findorfail($validated['task_id']);
+$task->task_reason = $validated['task_reason'];
+$task->status = $validated['status'];
+$task->save();
+return redirect()->back()->with('success','Task marked as ' .$validated['status']);
+
 
 }
+public function pending_reason(){
 
+dd("sldkjflsd");
 
+}
+public function cancel_reason(){
 
+dd("sldkjflsd");
+
+}public function processing_reason(){
+
+dd("sldkjflsd");
+
+}
 }

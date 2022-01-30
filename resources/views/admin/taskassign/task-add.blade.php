@@ -81,7 +81,7 @@
 
 <div class="form-group">
     <label for="exampleFormControlTextarea1">Description</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" name="purpose"></textarea>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" name="reason"></textarea>
   </div>
 <!-- 
       <div class="form-group">

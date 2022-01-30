@@ -14,12 +14,54 @@ body {
 .detail-heading{
     text-transform:uppercase;
 }
+
+.status {
+    width: 52px;
+    cursor: pointer;
+    border-radius: 7px;
+    color: #337ab7;
+    text-decoration: none;
+    text-decoration: none;
+    text-decoration-line: unset;
+    display: block;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.on{
+        background: #ffa114;
+
+}
+.off{
+    background:#91908f;
+}
+a:hover{
+    cursor: pointer;
+
+    text-decoration: none;
+}
 .printer{
     position: relative;
     left: 93%;
     padding: 4px;
     width:44px;
 }
+.teal{
+
+background-color:teal;
+color: #fff;
+border-radius: 10px;
+padding: 10px;
+}
+
+.heart{
+
+background-color:mediumvioletred;
+color: #fff;
+border-radius: 10px;
+padding: 10px;
 }
 .data {
     float: right;
@@ -75,6 +117,16 @@ border-radius:12px;
 .no-boder {
     border:1px solid #f3f3f3;
 }
+.client:hover{
+        box-shadow:1.5px 4px 12px 2px rgba(0,128,128,0.5);
+        transition:0.2s;
+
+}
+.depart:hover{
+ box-shadow:1.5px 4px 12px 2px rgba(199,24,133,0.5);
+        transition:0.2s;
+
+}
 
 h1, .h1, h2, .h2, h3, .h3 {
 margin-top: 7px;
@@ -117,7 +169,7 @@ position: fixed;
 }
 .navbar-side {
   z-index: 1;
-  position: fixed;
+  position: absolute;
   width: 260px;
   top: 80px;
 }
@@ -334,10 +386,13 @@ line-height: 30px;
 	top: 38px;
 	width: 120px;
 }
+#bhim:{
+    background-color: #354bcd;
+}
 
-#easypiechart-blue .percent { color: #30a5ff;}
+#easypiechart-blue .percent { color: #354bcd;}
 #easypiechart-teal .percent { color: #1ebfae;}
-#easypiechart-orange .percent { color: #ffb53e;}
+#easypiechart-orange .percent { color: #30cc47;}
 #easypiechart-red .percent { color: #ef4040;}
 
 	 

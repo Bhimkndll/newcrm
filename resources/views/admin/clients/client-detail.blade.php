@@ -5,7 +5,7 @@
 
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+       
         <h4 class="modal-title" id="exampleModalLabel">Client Details</h4>
       </div>
       <div class="modal-body">
@@ -38,27 +38,52 @@
    
   </tbody>
 </table> -->
-<button class="btn btn-info printer" value="click"
+<button class="btn btn-info printer"style="margin-bottom:10px;" value="click"
                     onclick="printDiv()"> <i class="fa fa-print"></i></button>
 <div class="list-group" id="detail">
   <div  class="list-group-item list-group-item-action flex-column align-items-start">
       
     <div class="d-flex w-100 justify-content-between ">
-      <h2 class="mb-1 detail-heading"> <small>ClientName:</small> bhim kandel</h2>
+      <h3 class="mb-1 detail-heading"style="font-weight:bold;"> <small>ClientName:</small>    {{$client->fullname}}</h3>
+    </div>
+    
+  </div>
+<div  class="list-group-item list-group-item-action flex-column align-items-start">
+      
+    <div class="d-flex w-100 justify-content-between ">
+      <h3 class="mb-1 detail-heading"style="font-weight:bold;"> <small>Address</small>   {{$client->address}}</h3>
+    </div> 
+    
+  </div>
+  <div  class="list-group-item list-group-item-action flex-column align-items-start">
+      
+    <div class="d-flex w-100 justify-content-between ">
+      <h3 class="mb-1 detail-heading"style="font-weight:bold;"> <small>Phone:</small>   {{$client->phone}}</h3>
+    </div>
+    
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+ <div  class="list-group-item list-group-item-action flex-column align-items-start">
+      
+    <div class="d-flex w-100 justify-content-between ">
+      <h3 class="mb-1 detail-heading"style="font-weight:bold;"> <small>No of visit:</small> {{$visit}}</h3>
     </div>
     
   </div>
  <div  class="list-group-item list-group-item-action flex-column align-items-start">
       
     <div class="d-flex w-100 justify-content-between ">
-      <h2 class="mb-1 detail-heading"> <small>No of visit:</small> {{$visit}}</h2>
-    </div>
-    
-  </div>
- <div  class="list-group-item list-group-item-action flex-column align-items-start">
-      
-    <div class="d-flex w-100 justify-content-between ">
-      <h2 class="mb-1 detail-heading"> <small>No of ticket issued:</small> {{$ticket}}</h2>
+      <h3 class="mb-1 detail-heading"style="font-weight:bold;"> <small>No of ticket issued:</small> {{$ticket}}</h3>
     </div>
     
   </div>

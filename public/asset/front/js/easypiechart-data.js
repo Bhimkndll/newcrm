@@ -8,7 +8,7 @@ $(function() {
 $(function() {
     $('#easypiechart-orange').easyPieChart({
         scaleColor: false,
-        barColor: '#ffb53e'
+        barColor: '#30cc47'
     });
 });
 
@@ -22,7 +22,7 @@ $(function() {
 $(function() {
    $('#easypiechart-blue').easyPieChart({
        scaleColor: false,
-       barColor: '#30a5ff'
+       barColor: '#354bcd'
    });
 });
 

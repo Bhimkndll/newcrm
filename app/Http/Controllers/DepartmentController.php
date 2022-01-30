@@ -3,11 +3,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Department;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Gate;
 
 class DepartmentController extends Controller
 {
-      public function add(Request $request){
-
+public function add(Request $request){
+if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
 $validated = request()->validate([
   'department' => 'required',
  
@@ -28,23 +31,43 @@ else{
     }}
 
 public function show(){
+
+if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
     $departs=Department::all('department','id');
     return view('admin.departments.department')->with('departs',$departs);
 }
 
 public function department_delete($id){
+if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
+
+
+
+
  $depart = Department:: find($id);
+
+if($depart->taskassign()->count()>0){
+return redirect()->back()->with(['warning'=> 'Sorry you cannot delete the parent node']);
+}
+else{
 if($depart != null)
 {
 $depart->delete();
 Session::flash('info', 'Department is deleted successfully'); 
 
 return redirect()->back()->with(['message'=> 'Successfully deleted!']);
-}
+}}
  }
 
 
  public function department_edit($id){
+
+if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
     $depart=Department::findorfail($id);
     if($depart!= null){
 
@@ -53,6 +76,10 @@ return redirect()->back()->with(['message'=> 'Successfully deleted!']);
  }
 
 public function department_update(Request $request ,$id){
+    
+if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
 $Department=Department::find($id);
 if($Department){
 $validated = request()->validate([

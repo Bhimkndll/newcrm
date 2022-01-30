@@ -31,13 +31,14 @@
 "{{(request()->is('task/All')) ? 'btn btn-primary active-task-menu' : 'btn btn-primary' }} ">
                                 <i class="fa fa-tasks fa-1x text-white"></i> All
                         </a>
-                        <a href="{{route('task.all',['id'=>'Processing'])}}" class="{{(request()->is('task/Processing')) ? 'btn btn-primary active-task-menu' : 'btn btn-primary' }} ">
-                                <i class="fa fa-minus-circle fa-1x text-white"></i> Processing
-                        </a>
-             <a href="{{route('task.all',['id'=>'Pending'])}}"class="{{(request()->is('task/Pending')) ? 'btn btn-primary active-task-menu' : 'btn btn-primary' }}">
+                          <a href="{{route('task.all',['id'=>'Pending'])}}"class="{{(request()->is('task/Pending')) ? 'btn btn-primary active-task-menu' : 'btn btn-primary' }}">
                                 <i class="fa fa-minus-circle fa-1x text-white"></i> Pending
                         </a>
 
+                        <a href="{{route('task.all',['id'=>'Processing'])}}" class="{{(request()->is('task/Processing')) ? 'btn btn-primary active-task-menu' : 'btn btn-primary' }} ">
+                                <i class="fa fa-minus-circle fa-1x text-white"></i> Processing
+                        </a>
+           
                         <a href="{{route('task.all',['id'=>'Completed'])}}" class="{{(request()->is('task/Completed')) ? 'btn btn-primary active-task-menu' : 'btn btn-primary' }} ">
                                 <i class="fa fa-check fa-1x text-white"></i> <small>Completed</small> 
                         </a>
