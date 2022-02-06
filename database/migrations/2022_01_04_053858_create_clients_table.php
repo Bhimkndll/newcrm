@@ -19,6 +19,12 @@ class CreateClientsTable extends Migration
 
                         $table->string('fullname');
                         $table->string('address');
+                        $table->string('c_email')->nullable();
+                        $table->date('c_dob')->nullable();
+                        $table->boolean('ticket')->default(0);
+
+
+
 /*                        $table->BigInteger('department_id');
 */                        $table->string('phone');
 

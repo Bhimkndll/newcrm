@@ -32,5 +32,9 @@ class Taskassign extends Model
       return $this->BelongsTo(User::class);
 
     }
+     public function purpose(){
+      return $this->BelongsTo(Purpose::class);
+
+    }
 
 }

@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            Tasks <small>Manage task</small>
+                              Birthday Info<small> clients</small>
                         </h1>
            <!--  <ol class="breadcrumb">
   <li><a href="#">Home</a></li>
@@ -44,12 +44,11 @@
                                              <th>Client Name</th>
                                             <th>Address</th>
                                             <th>Phone</th>
-                                            <th>Purpose</th>
-                                            <th>Reason</th>
-                                            <th>Follow up</th>
+                                            <th>Years old</th>
 
-                                            <th>Task To</th>
-                                            <th>Status</th>
+                                            <th>Comming After in</th>
+                                          <th>Birthday</th>
+
 
 
                                         </tr>
@@ -57,71 +56,42 @@
                                     <tbody>
 
 
-                                        @foreach($tasks as $task)
+                                        @foreach($clients as $client)
                                         <tr class="odd gradeX">
                                         <td> {{$loop->iteration}}</td>
 
-                                         <td>{{$task->client->fullname}}</td>
-                                            <td>{{$task->client->address}}</td>
-                                            <td>{{$task->client->phone}}</td>
-                                            <td class="center">
+                                         <td>{{$client->fullname}}</td>
+                                            <td>{{$client->address}}</td>
+                                            <td>{{$client->phone}}</td>
+                                            <td>{{\Carbon\Carbon::parse($client->c_dob)->diff(\Carbon\Carbon::now())->y}} years old</td>
+<td class="center">{{$remaining=\Carbon\Carbon::now()->diffInDays($client->c_dob, false);
+}} days</td>
+<th class="center">
 
-
-{!! !empty($task->purpose) ? $task->purpose->name : '<span class="text-danger text-sm">No purpose</span> ' !!}
-
-
-
-                                            </td>
-
-
-                                             <td class="center">
-
-
-{!! !empty($task->reason) ? $task->reason : '<span class="text-danger text-sm">No reason</span>' !!}
-
-
-
-                                            </td>
-
-                                             <td class="center text-sm">
-
-
-{!! !empty($task->task_reason)?$task->task_reason :' ' !!}
-
-
-                                            </td>
-
-
-@if(!empty($task->user_id))
-
-
-@foreach($users as $user)
- 
-@if($user->id===$task->user_id)
- <td class="center">{{$user->name}}</td>
- @endif
-@endforeach
-
-@else
-
-
-
-                                             <td class="center text-sm  text-danger"style="font-size:15px;color: red;font-weight: bold;">Invalid user</td>
-
+@foreach($todays as $today)
+@if($today->id==$client->id)
+Today is his/her birthday.!🎂🌹🎂🌹🍔🎂🌹🎁🎁🎁🌹🌹 Wish him/her today 
 
 @endif
 
+@endforeach
 
 
-                                             <td class="center text-sm">
+@foreach($tomorrows as $tom)
+@if($tom->id==$client->id)
+Tomorrow is his/her birthday.!🎂🌹🎂🎁🎁 Wish him/her tomorrow 
+
+@endif
+@endforeach
 
 
-{!! !empty($task->status) ? $task->status : 'Plz Assign task' !!}
-
-
-                                            </td>
 
                                          
+
+
+
+
+
 
 
                                         </tr>
@@ -138,13 +108,13 @@
 
                 </div>
         
-        
+        </div>
                 
                 <!-- /. ROW  -->
                 <!-- start for add customer -->
 
-
 <!-- for user create form -->
+
 
 <!-- rroo -->
 

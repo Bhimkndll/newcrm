@@ -11,20 +11,29 @@ use App\Models\Department;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Taskassign;
+use App\Models\Attendence;
+use Carbon\Carbon;
 
 
 class AdminController extends Controller
 {
 public function index(){
     $total=Taskassign::count();
+    if($total>0){
     $pending=$this->pending_status($total);
     $complete=$this->complete_status($total);
     $cancel=$this->cancel_status($total);
         $process=$this->process_status($total);
 
     $departs=Department::all();
-   return view('child.dashboard')->with(compact('pending','complete','cancel','process','departs'));
+   return view('child.dashboard')->with(compact('pending','complete','cancel','process','departs','total'));
     }
+    else{
+           return view('child.dashboard')->with(compact('total'));
+
+    }
+
+}
 
 /*function to be called during first load of app*/
 
@@ -95,7 +104,7 @@ if (! Gate::allows('super-admin')) {
         }
 
 
-    $users=User::all('id','name','email','phone','role','address','status');
+    $users=User::all('id','name','email','phone','role','address','status')->where('id','!=',Auth::id());
     return view('admin.users.user')->with('users',$users);
  }
 
@@ -194,5 +203,40 @@ public function status($id){
 public function tabs(){
         return view('child.tabs');
     }
+
+
+    public function need_revive(){
+        
+if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
+    $dusers=Attendence::with('user')->whereDate('exit_time', Carbon::today())->get();
+    if(Attendence::whereDate('exit_time', Carbon::today())->exists()){
+return view('admin.revive.reviveuser')->with(compact('dusers'));
+    }else{
+        Session::flash('warning','Every user are alive and can work');
+        return redirect()->back();
+    }
+
+    }
+public function revive($id){
+
+
+if (! Gate::allows('super-admin')) {
+            abort(403);
+        }
+
+    $rev=Attendence::findorfail($id);
+    $rev->exit_time=Null;
+    $rev->save();
+    
+    return redirect()->route('dashboard')->with('success','User is revive successfully, Now he can work');
+    }
+
+
+
+
+
+
 
 }

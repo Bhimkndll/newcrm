@@ -35,7 +35,7 @@
           </div>
           
            <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       <a href="{{route('close')}}"class="btn btn-default">Close</a>
         <input type="submit" class="btn btn-primary"id="targets">
       </div>
         </form>

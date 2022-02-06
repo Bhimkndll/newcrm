@@ -45,15 +45,15 @@
 <div class="form-group">
     <label class="input-group-text" for="inputGroupSelect01">Role</label>
   <select class="custom-select form-control" name="role">
-    <option selected value="employee">employee</option>
-    <option  value="employer">employer</option>
-    <option  value="student">student</option>
+    <option selected value="level1">level1</option>
+    <option  value="level2">level2</option>
+    <option  value="level3">level3</option>
   </select>
 </div>
 
             <div class="form-group">
             <label for="message-text" class="control-label">Updatepassword</label>
-            <input type="password" class="form-control" id="message-text"name="password" required>
+            <input type="password" class="form-control" id="message-text"name="password">
           </div>
 
 

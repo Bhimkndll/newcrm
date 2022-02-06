@@ -46,7 +46,7 @@
                                         <tr>
                                         <th>SN:</th>
 
-                                            <th>Departments</th>
+                                            <th>Purpose</th>
                                           
                                             <th>Actions</th>
 

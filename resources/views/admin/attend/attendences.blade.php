@@ -113,19 +113,45 @@ for ($x = 0; $x <= count($rest)-2; $x++) {
 
 <td>
 
-   <?php                                            
-     
+                                                <!-- working time -->
+                                         
+  
+              <?php
+
+$w=0;
+$f=0;
+
 $curr = explode (",",$attend->entry_time); 
+      $w= \Carbon\Carbon::parse(current($curr))->diffInSeconds(\Carbon\Carbon::parse(end($curr)));
+      $now=date('Y-m-d H:i:s');
+      echo "$now";
+     $tz = \Carbon\Carbon::now();
+      $local='2017-04-11 12:39:50';
+    $emitted = \Carbon\Carbon::parse(end($curr));
+     $diff = $tz->diffInSeconds($emitted); 
 
-if(empty($attend->exit_time)) { 
-echo "currently working";
+            $wl= \Carbon\Carbon::parse(end($curr))->diffInSeconds(\Carbon\Carbon::parse(end($curr)));
 
+
+
+$w=$w-$c;
+?>       
+<p style="display: block; background: green;border-top:solid 2px red;padding: 0px;">
+    Total = 
+
+
+    <?php 
+
+if($attend->switch){
+ echo gmdate('H:i:s', $w+$diff); 
+
+}else{
+     echo gmdate('H:i:s', $w); 
 }
-else{
-       echo gmdate('H:i:s', \Carbon\Carbon::parse(current($curr))->diffInSeconds(\Carbon\Carbon::parse($attend->exit_time))); 
-    }
-?>
 
+?> {{$attend->switch?"":'inactive'}}
+
+</p>
 </td>
 <td>{{$attend->exit_time}}</td>
 </tr>

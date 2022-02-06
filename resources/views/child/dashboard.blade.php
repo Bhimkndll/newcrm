@@ -66,10 +66,47 @@
 
 @endcan
 
+
+@can('super-admin')
+ <div class="col-md-3 col-sm-12 col-xs-12">
+
+   <a data-toggle="modal" data-target="#airline">
+                        <div class="panel panel-primary text-center no-boder depart bg-color-other other">
+                            <div class="other">
+                                <i class="fa fa-plus fa-5x"></i> 
+                            </div>
+                            
+                                <h4>Add Airline</h4>
+                            
+                        </div>
+                        </a>
+
+                    </div>
+
+
+
+@endcan
+
+
+
+
+
+
+
+
+
+
+
+
                 </div>
         
+
+
+
+
+      @if($total>0)
     
-    <div class="row ">
+    "<div class="row ">
       <div class="col-xs-6 col-md-3">
         <div class="panel panel-default">
           <div class="panel-body easypiechart-panel">
@@ -106,7 +143,9 @@
           </div>
         </div>
       </div>
-    </div><!--/.row-->
+    </div> 
+@endif
+    <!--/.row-->
         
         <!-- 
                 <div class="row">
@@ -222,13 +261,14 @@
 
 
 @include('admin.departments.department-add')
+@include('admin.airline.airline-dashboard')
+
 
 <!--  -->
 
-
-        <footer><p>All right reserved. &copy; {{ now()->year }} Powered By: <a href="https://www.bitmapitsolution.com">Bitmap I.T. Solution Pvt. Ltd.</a></p></footer>
-            </div>
-
+ 
        
 
 @endsection
+
+       

@@ -17,8 +17,11 @@ class TaskController extends Controller
         }*/
 
 $users=User::all('id','name');
-$clients=Client::with('taskassign','department')->get();
-return view('admin.task.task')->with(compact('clients','users'));
+
+$tasks=Taskassign::with('client','department','purpose')->get();
+/*$clients=Client::with('taskassign','department')->get();
+*/
+return view('admin.task.task')->with(compact('tasks','users'));
 }
 
     /*for specific client task*/
@@ -38,7 +41,7 @@ public function alltask($id){
     if (! Gate::allows('admin')) {
             abort(403);
         }
-if($id=="completed"){
+if($id=="Completed"){
 $tasks=Taskassign::with('user','department','client')->where(['user_id'=>Auth::id(),'status'=>$id])->get();
 return view('admin.mytask.alltask')->with('tasks',$tasks);    
 }
@@ -49,6 +52,7 @@ else {
 
 }
 public function all($id){
+
     if (! Gate::allows('admin')) {
             abort(403);
         }
@@ -107,9 +111,11 @@ $task->status = "Pending";
 $task->save();
 return redirect()->back()->with('success','Task marked as Pending');
 }
+
+
 public function task_reason_status(Request $request){
 
-if (! Gate::allows('super-admin')) {
+if (! Gate::allows('admin')) {
             abort(403);
         }
 $validated = request()->validate([

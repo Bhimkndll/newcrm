@@ -36,7 +36,7 @@
             confirmButtonText: "Yes, Quit!",
             cancelButtonText: "No, cancel!",
             cancelButton:'btn btn-primary',
-              confirmButtonColor: 'red',
+            confirmButtonColor: 'red',
             cancelButttonColor: '#8CD4F5',
 
 
@@ -48,18 +48,18 @@
                 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
                 $.ajax({
-                    type: 'get',
+                    type: 'POST',
                     url: "{{url('/user/exit')}}/",
                     data: {_token: CSRF_TOKEN},
                     dataType: 'JSON',
 
 success: function(response) {
-       window.location.href = "/dashboard";
     
-                        if (results.success === true) {
-                            swal("Done!", results.message, "success");
+                        if (response.success) {
+                                   window.location.href = "/login";
+
+                           
                         } else {
-                            swal("Error!", results.message, "error");
                         }
                     }
                 });
@@ -131,10 +131,10 @@ success: function(response) {
                         <li class="divider"></li>
                         
                     <li>
-                            <a href="{{route('mytaskshow')}}">
+                            <a href="{{route('task.all',['id'=>'Pending'])}}">
                                 <div>
                                     <i class="fa fa-tasks fa-fw"></i> My Tasks
-                                    <span class="pull-right text-muted small">4 min</span>
+                                    <span class="pull-right text-muted small"></span>
                                 </div>
                             </a>
                         </li>
@@ -164,9 +164,10 @@ success: function(response) {
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i></a>
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i>  {{auth()->user()->name
+
+}}</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -217,6 +218,14 @@ success: function(response) {
                     </li>
                     @endcan
 
+   @can('super-admin')
+                     <li>
+                        <a  class="{{(request()->is('airline*')) ? 'active-menu' : '' }}"href="{{route('airline.show')}}"><i class="fa fa-plane"></i>Airlines</a>
+                    </li>
+                    @endcan
+
+
+
 @can('super-admin')
 <li>
                         <a  class="{{(request()->is('purpose/show')) ? 'active-menu' : '' }}"href="{{route('purpose.show')}}"><i class="fa fa-cogs"></i>Purposes</a>
@@ -225,8 +234,8 @@ success: function(response) {
 @endcan
 
 
-                <button class="btn btn-danger" onclick="deleteConfirmation(1)">Delete</button>
-
+<!--                 <button class="btn btn-danger" onclick="deleteConfirmation(1)">Delete</button>
+ -->
 
 <li>
                         <a  class="{{(request()->is('task*')) ? 'active-menu' : '' }}"href="{{route('task.show')}}"><i class="fa fa-briefcase"></i>Task</a>
@@ -235,17 +244,14 @@ success: function(response) {
 
 
 <li>
-                        <a  class="{{(request()->is('ticket')) ? 'active-menu':''}}"href="{{route('ticket')}}"><i class="fa fa-ticket"></i>Ticket Booking</a>
+                        <a  class="{{(request()->is('ticket*')) ? 'active-menu':''}}"href="{{route('ticket')}}"><i class="fa fa-ticket"></i>Ticket Booking</a>
                     </li>
 
 
-<li>
-                        <a  class="{{(request()->is('exit')) ? 'active-menu' : '' }}"href="{{route('exit')}}"><i class="fa fa-id" aria-hidden="true"></i>Exit</a>
-                    </li>
 
 
 <li>
-                        <a  class="{{(request()->is('ticket/confirm')) ? 'active-menu':''}}"href="{{route('ticket.confirm')}}"><i class="fa fa-plane"></i>TodayFlight</a>
+                        <a  class="{{(request()->is('today*')) ? 'active-menu':''}}"href="{{route('ticket.confirm')}}"><i class="fa fa-plane"></i>Today Flight</a>
                     </li>
 
 
@@ -257,9 +263,39 @@ Attendence</a>
                     </li>
 
 @endcan
+
+
+
+@can('super-admin')
+<li>
+                        <a  class="{{(request()->is('birthday')) ? 'active-menu' : '' }}"href="{{route('birthday')}}"><i class="fas fa-birthday-cake" aria-hidden="true"></i><i class="fas fa-birthday-cake"></i>
+
+Birthday</a>
+                    </li>
+
+@endcan
+
+   @can('super-admin')
+
+
+<li style="background:#4f3bbdc4;">
+                        <a  class="{{(request()->is('revive')) ? 'active-menu' : '' }}"href="{{route('revive.list')}}"><i class="fa fa-id" aria-hidden="true"></i>Revive User</a>
+                    </li>
+
+@endcan
  
 
+
+@if(auth()->user()->role!="level3")
+<li style="background: red;">
+                        <a  class="{{(request()->is('exit')) ? 'active-menu' : '' }}" onclick="deleteConfirmation(1)"><i class="fa fa-id" aria-hidden="true"></i>Exit</a>
+                    </li>
+
+@endif
                    
+
+
+
           </ul>
 
             </div>
@@ -281,6 +317,8 @@ Attendence</a>
             @yield('child_content')
 
 
+<footer><p>All right reserved. &copy; {{ now()->year }} Powered By: <a href="https://www.bitmapitsolution.com">Bitmap I.T. Solution Pvt. Ltd.</a></p></footer>
+            </div>
 
 
 

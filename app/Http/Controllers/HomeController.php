@@ -25,4 +25,7 @@ class HomeController extends Controller
     {
         return view('admin.master');
     }
+    public function login(){
+        return view('auth.login');
+    }
 }

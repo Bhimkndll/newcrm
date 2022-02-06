@@ -22,8 +22,10 @@ class UserSeeder extends Seeder
             'email'=>'bhi@gmail.com',
             'password'=>bcrypt('bhimkandel'),
             'address'=>'gaindakot',
-            'phone'=>'9894503251012',
-            'role'=>'student'
+            'phone'=>'9845036563',
+            'role'=>'level3',
+            'status'=>1,
+
 
         ]);
       

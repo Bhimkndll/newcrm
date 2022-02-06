@@ -30,10 +30,7 @@
                     <div class="col-md-12">
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
-                      <!--   <div class="panel-heading text-right">
-                             <a class="btn btn-primary"  data-toggle="modal" data-target="#client">
-                                <i class="fa fa-plus fa-1x text-white"></i> Add Client 
-                        </a> -->
+                     
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">

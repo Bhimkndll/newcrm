@@ -34,9 +34,9 @@ Gate::before(function ($user, $ability) { /*always check gate and reject all pos
 return $user->role=='level3' ? true : null;
 });
 
-      /*Gate::define('super-admin', function($user) {
+      Gate::define('super-admin', function($user) {
            return $user->role == 'level3';
-        });*/
+        });
        
         /* define a manager user role */
         Gate::define('admin', function($user) {

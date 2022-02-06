@@ -16,12 +16,21 @@ class CreateTicketsTable extends Migration
         Schema::create('tickets', function (Blueprint $table) {
                         $table->id();
                         $table->BigInteger('user_id');
+                                                $table->BigInteger('airline_id');
+
                         $table->string('departure');
                         $table->string('destination');
                         $table->BigInteger('client_id');
                         $table->date('date');
                         $table->time('time');
                         $table->string('description')->nullable();
+                        $table->string('pnr');
+                        $table->string('ticket_no');
+                                                $table->string('remarks')->nullable();
+
+
+
+
 
             $table->timestamps();
         });

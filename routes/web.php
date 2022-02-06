@@ -10,6 +10,8 @@ use App\Http\Controllers\TaskassignController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\AttendenceController;
+use App\Http\Controllers\AirlineController;
+
 
 
 /*
@@ -22,16 +24,16 @@ use App\Http\Controllers\AttendenceController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+
 
 Route::get('/', function () {
     return view('auth.login');
 });
+Route::get('/login', [App\Http\Controllers\HomeController::class, 'login'])->name('login');
+
 
 Auth::routes();
-Route::group(['prefix' => '','middleware'=>['status','auth']], function () {
+Route::group(['prefix' => '','middleware'=>['quit','auth','status']], function () {
 
 
 
@@ -95,8 +97,8 @@ Route::post('/purpose/update/{id}', [PurposeController::class, 'purpose_update']
 
 /*task assign */
 
-Route::get('/task/assign/{id}', [TaskassignController::class, 'show'])->name('task.assign');
-Route::post('/task/add/{id}', [TaskassignController::class, 'add'])->name('task.add');/*user role*/
+/*Route::get('/task/assign/{id}', [TaskassignController::class, 'show'])->name('task.assign');
+*/Route::post('/task/add/{id}', [TaskassignController::class, 'add'])->name('task.add');/*user role*/
 /*end for tsk assign*/
 
 
@@ -136,13 +138,15 @@ Route::get('/task/{id}', [TaskController::class, 'all'])->name('task.all');
 /*ticket related activities*/
 
 Route::get('/ticket', [TicketController::class, 'ticket_confirm'])->name('ticket');
-Route::get('/client/ticket', [TicketController::class, 'client_show'])->name('client.ticket.show');
+
+/*show datas*/
+Route::get('/ticket/client/show', [TicketController::class, 'client_show'])->name('client.ticket.show');
 
 Route::get('/ticket/select', [TicketController::class, 'show'])->name('ticket.select');
 
 
 
-Route::get('client/ticket/select/{id}', [TicketController::class, 'ticket_select'])->name('ticket.book');
+Route::get('ticket/client/select/{id}', [TicketController::class, 'ticket_select'])->name('ticket.book');
 /*select for data*/
 
 Route::post('/ticket/select', [TicketController::class, 'booking'])->name('ticket.add');
@@ -156,7 +160,7 @@ Route::post('/ticket/booking/{id}', [TicketController::class, 'ticket_booking'])
 
 /*ticket booking confirm*/
 
-Route::get('ticket/confirm', [TicketController::class, 'ticket_confirm_today'])->name('ticket.confirm');
+Route::get('today/ticket/confirm', [TicketController::class, 'ticket_confirm_today'])->name('ticket.confirm');
 
 
 /*ticket confirm */
@@ -182,9 +186,56 @@ Route::post('task/status/reason', [TaskController::class, 'task_reason_status'])
 /*attendence*/
 
 Route::get('attend', [AttendenceController::class, 'attend'])->name('attend');
-Route::get('user/exit', [App\Http\Controllers\Auth\LoginController::class,'exit'])->name('exit');
+Route::post('user/exit', [App\Http\Controllers\Auth\LoginController::class,'exit'])->name('exit');
+Route::get('/revive', [App\Http\Controllers\AdminController::class, 'need_revive'])->name('revive.list');
+Route::get('/revive/user/{id}', [App\Http\Controllers\AdminController::class, 'revive'])->name('user.revive');
+
+
 
 /*App\Http\Controllers\Auth\LoginController@login 
 App\Http\Controllers\Auth\LoginController@logout 
 */
+
+
+/*airline route*/
+Route::post('airline/create', [AirlineController::class, 'airline_create'])->name('airline.create');
+
+Route::get('airline', [AirlineController::class, 'show'])->name('airline.show');
+Route::get('airline/update/{id}', [AirlineController::class, 'airline_edit'])->name('airline.edit');
+Route::get('airline/delete/{id}', [AirlineController::class, 'airline_delete'])->name('airline.delete');
+Route::post('airline/update/{id}', [AirlineController::class, 'airline_update'])->name('airline.update');
+
+
+
+/*end of airline route*/
+Route::get('ticket/airline/domestic', [AirlineController::class, 'domestic_all'])->name('domestic.all');
+
+/*for doemstic all route*/
+
+Route::get('ticket/airline/international', [AirlineController::class, 'international_all'])->name('international.all');
+
+/*for internation all route*/
+
+
+/*birthday information*/
+
+Route::get('client/birthday', [ClientController::class, 'birthday'])->name('birthday');
+Route::get('close', [ClientController::class, 'close'])->name('close');
+Route::get('close/client', [ClientController::class, 'close_client'])->name('client.close');
+
+Route::get('close/purpose', [ClientController::class, 'close_purpose'])->name('purpose.close');
+Route::get('close/ticket', [ClientController::class, 'close_ticket'])->name('ticket.close');
+/*ticket remarks*/
+
+Route::post('ticket/status/reason', [TicketController::class, 'remarks'])->name('ticket.reason.status');
+Route::get('/ticket/close', [TicketController::class, 'ticket_flash'])->name('ticketbooking.close');
+
+
+Route::get('today/ticket/airline/domestic', [TicketController::class, 'ticket_confirm_today_domestic'])->name('domestic.all.today');
+
+/*for doemstic all route*/
+
+Route::get('today/ticket/airline/international', [TicketController::class, 'ticket_confirm_today_international'])->name('international.all.today');
+
+
 });

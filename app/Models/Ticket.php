@@ -9,8 +9,8 @@ class Ticket extends Model
 {
     use HasFactory;
 
-     protected $fillable = [
-        'date','departure','description','destination','client_id','time',
+     protected $fillable = ['user_id',
+        'date','departure','description','destination','client_id','time','type','airline_id','pnr','ticket_no','remarks'
         
     ];
 
@@ -25,6 +25,12 @@ public function client(){
       return $this->BelongsTo(User::class);
 
     }
+
+    public function airline(){
+      return $this->BelongsTo(Airline::class);
+
+    }
+
 }
 
 

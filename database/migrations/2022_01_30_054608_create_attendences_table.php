@@ -16,9 +16,13 @@ class CreateAttendencesTable extends Migration
         Schema::create('attendences', function (Blueprint $table) {
             $table->id();
             $table->BigInteger('user_id');
-            $table->date('entry_time');
-            $table->date('exit_time');
-            $table->string('entry_counts');
+            $table->string('entry_time')->nullable();
+            $table->datetime('exit_time')->nullable();
+            $table->string('entry_counts')->nullable();
+                        $table->string('break_info')->nullable();
+
+                        $table->boolean('switch')->default(0);
+
 
             $table->timestamps();
         });

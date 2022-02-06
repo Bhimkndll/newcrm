@@ -14,12 +14,14 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use validator;
+use Carbon\Carbon;
 
 
 
 class ClientController extends Controller
 {
    public function show(){
+
    $departs=Department::all('id','department');
    $clients=Client::with('department','user')->get();
     return view('admin.clients.client')->with(compact('clients','departs'));
@@ -39,9 +41,7 @@ public function add(Request $request){
 
 
 
-
-/*  'department'=>'required'
-*/]);
+]);
 
 
 
@@ -58,8 +58,6 @@ $add=Client::create([
   'c_dob' => $validated['dob'],
 
 
-/*    'department_id' => $validated['department'],
-*/
 ]);
     return redirect()->back()->with('success','Client added successfully');
 
@@ -151,12 +149,30 @@ $client=Client::where('id',$id)->get()->first();
 return view('admin.clients.client-detail')->with(compact('visit','ticket','client'));
 
 }
+/*whereDay('c_dob', Carbon::now())*/
+public function birthday(){
+    $clients=Client::whereMonth('c_dob',Carbon::now())->orderByRaw('DAY(c_dob)')
+->get();
+$todays=Client::whereMonth('c_dob', '=', Carbon::now()->format('m'))->whereDay('c_dob', '=', Carbon::now()->format('d'))->get();
+$tomorrows=Client::whereMonth('c_dob', '=', Carbon::now()->format('m'))->whereDay('c_dob', '=', Carbon::now()->addDay()->format('d'))->get();
+return view('admin.clients.birthday')->with(compact('clients','todays','tomorrows'));
 
 
+}
+public function close(){
+    return redirect()->route('department.show');
+}
+public function close_client(){
+    return redirect()->route('client.show');
+}
 
+public function close_purpose(){
+    return redirect()->route('purpose.show');
+}
 
-
-
+public function close_ticket(){
+    return redirect()->route('ticket');
+}
 
 
 }
